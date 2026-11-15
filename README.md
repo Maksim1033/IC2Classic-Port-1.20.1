@@ -1,4 +1,4 @@
-# Industrial Craft Classic 1.20.1
+# Industrial Craft Classic: Port 1.20.1
 
 <div align="right">
   <strong>🇬🇧 English</strong> | <a href="README.ru.md">🇷🇺 Русский</a>
