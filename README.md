@@ -10,7 +10,7 @@
 
 Industrial Craft Classic port for **Minecraft Forge 1.20.1**.
 
-This project is an unofficial continuation and port of **Industrial Craft Classic** from Minecraft **1.19.2 Forge** to **1.20.1 Forge**.
+This project is an unofficial continuation and port of **Industrial Craft 2 Classic** from Minecraft **1.19.2 Forge** to **1.20.1 Forge**.
 
 The main goal is to preserve the original gameplay, API, mechanics and compatibility while adapting the mod to the newer Minecraft and Forge versions.
 
@@ -50,16 +50,16 @@ Current focus:
 ## Documentation
 
 English documentation:
-- Coming soon.
+- This File
 
 Русская документация:
 - [README_RU.md](README_RU.md)
 
 ## AI Assistance
 
-<img src="https://img.shields.io/badge/AI-Developed_with_ChatGPT_5.6_Sol-blue?style=flat-square" alt="Developed with ChatGPT 5.6 Sol">
+<img src="https://img.shields.io/badge/AI-Developed_with_Gemini-blue?style=flat-square" alt="Developed with Gemini">
 
-A significant part of this migration was completed with assistance from **ChatGPT 5.6 Sol**.
+A significant part of this migration was completed with assistance from **Gemini 3.8 Flash**.
 
 AI assistance was used for:
 
@@ -71,7 +71,7 @@ AI assistance was used for:
 - refactoring outdated systems;
 - documentation preparation.
 
-The repository was not blindly generated. All changes are reviewed, tested and adjusted manually to maintain code quality and compatibility.
+The repository was NOT blindly generated. All changes are reviewed, tested and adjusted manually to maintain code quality and compatibility. :)
 
 ## Credits
 
