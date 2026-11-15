@@ -2,9 +2,10 @@ package ic2.api.tiles;
 
 import net.minecraft.core.Direction;
 
-public interface IAnchorTile
-{
-	boolean hasAnchor(Direction side);
-	boolean addAnchor(Direction side);
-	boolean removeAnchor(Direction side);
+public interface IAnchorTile {
+   boolean hasAnchor(Direction var1);
+
+   boolean addAnchor(Direction var1);
+
+   boolean removeAnchor(Direction var1);
 }

@@ -1,34 +1,35 @@
 package ic2.api.energy.tile;
 
-public interface IEnergySource extends IEnergyEmitter
-{
-	int getSourceTier();
-	
-	int getMaxEnergyOutput();
-	
-	int getProvidedEnergy();
-	
-	void consumeEnergy(int consumed);
-	
-	//When the energyNet couldn't send energy
-	default void onPacketFailed() {}
-	
-	default SourceType getSourceType() { return SourceType.UNKNOWN; }
-	
-	public static enum SourceType {
-		ALWAYS_CONSUMING,
-		PASSIVE_PRODUCING,
-		INDIRECT_PASSIVE,
-		INTELIGENT_CONSUMING,
-		DUMB_CONSUMING,
-		UNKNOWN;
-		
-		public SourceType merge(SourceType other) {
-			return ordinal() < other.ordinal() ? this : other;
-		}
-		
-		public static SourceType required(SourceType required, SourceType other) {
-			return other.ordinal() < required.ordinal() ? required : other;
-		}
-	}
+public interface IEnergySource extends IEnergyEmitter {
+   int getSourceTier();
+
+   int getMaxEnergyOutput();
+
+   int getProvidedEnergy();
+
+   void consumeEnergy(int var1);
+
+   default void onPacketFailed() {
+   }
+
+   default IEnergySource.SourceType getSourceType() {
+      return IEnergySource.SourceType.UNKNOWN;
+   }
+
+   public static enum SourceType {
+      ALWAYS_CONSUMING,
+      PASSIVE_PRODUCING,
+      INDIRECT_PASSIVE,
+      INTELLIGENT_CONSUMING,
+      DUMB_CONSUMING,
+      UNKNOWN;
+
+      public IEnergySource.SourceType merge(IEnergySource.SourceType other) {
+         return this.ordinal() < other.ordinal() ? this : other;
+      }
+
+      public static IEnergySource.SourceType required(IEnergySource.SourceType required, IEnergySource.SourceType other) {
+         return other.ordinal() < required.ordinal() ? required : other;
+      }
+   }
 }

@@ -4,25 +4,24 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public interface IElectricItemManager 
-{
-	int charge(ItemStack stack, int amount, int tier, boolean ignoreTransferLimit, boolean simulate);
+public interface IElectricItemManager {
+   int charge(ItemStack var1, int var2, int var3, boolean var4, boolean var5);
 
-	int discharge(ItemStack stack, int amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate);
+   int discharge(ItemStack var1, int var2, int var3, boolean var4, boolean var5, boolean var6);
 
-	int getCharge(ItemStack stack);
+   int getCharge(ItemStack var1);
 
-	int getCapacity(ItemStack stack);
-		
-	boolean canUse(ItemStack stack, int amount);
+   int getCapacity(ItemStack var1);
 
-	boolean use(ItemStack stack, int amount, LivingEntity entity);
+   boolean canUse(ItemStack var1, int var2);
 
-	void chargeFromArmor(ItemStack stack, LivingEntity entity);
+   boolean use(ItemStack var1, int var2, LivingEntity var3);
 
-	int getTier(ItemStack stack);
-	
-	int getTransferLimit(ItemStack stack);
-	
-	Component getToolTip(ItemStack stack);
+   void chargeFromArmor(ItemStack var1, LivingEntity var2);
+
+   int getTier(ItemStack var1);
+
+   int getTransferLimit(ItemStack var1);
+
+   Component getToolTip(ItemStack var1);
 }

@@ -1,0 +1,19 @@
+package ic2.core.block.base.misc.comparator.types.special;
+
+import ic2.core.block.base.misc.comparator.BaseComparator;
+import ic2.core.block.base.misc.readers.IHeatProvider;
+import net.minecraft.network.chat.Component;
+
+public class HeatComparator extends BaseComparator {
+   IHeatProvider heat;
+
+   public HeatComparator(String id, Component name, IHeatProvider heat) {
+      super(id, name);
+      this.heat = heat;
+   }
+
+   @Override
+   protected int createValue() {
+      return value((float)this.heat.getHeat(), (float)this.heat.getMaxHeat(), 15);
+   }
+}

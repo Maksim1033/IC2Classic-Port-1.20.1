@@ -1,6 +1,5 @@
 package ic2.api.reactor;
 
-public interface IReactorChamber
-{
-	IReactor getReactor();
+public interface IReactorChamber {
+   IReactor getReactor();
 }

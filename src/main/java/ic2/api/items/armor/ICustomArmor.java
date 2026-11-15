@@ -5,67 +5,55 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public interface ICustomArmor
-{
-	AbsorptionProperties getProperties(LivingEntity entity, ItemStack armor, DamageSource source, double damage, EquipmentSlot slot);
-	
-	void damageArmor(LivingEntity player, ItemStack stack, DamageSource source, int damage, EquipmentSlot slot, DamageType type);
+public interface ICustomArmor {
+   ICustomArmor.AbsorptionProperties getProperties(LivingEntity var1, ItemStack var2, DamageSource var3, double var4, EquipmentSlot var6);
 
-	default boolean canBlockDamageSource(LivingEntity player, ItemStack stack, DamageSource source, EquipmentSlot slot) {
-		return !source.isBypassArmor();
-	}
+   void damageArmor(LivingEntity var1, ItemStack var2, DamageSource var3, int var4, EquipmentSlot var5, ICustomArmor.DamageType var6);
 
-	enum DamageType
-	{
-		MODDED,
-		VANILLA,
-		THORNS_SELF
-	}
-	
-	class AbsorptionProperties implements Comparable<AbsorptionProperties>
-	{
-		public int priority;
-		public int absorbMax;
-		public double absorbRatio;
-		public EquipmentSlot slot = null;
-		
-		public AbsorptionProperties(int priority, double ratio, int max)
-		{
-			this.priority = priority;
-			absorbMax = max;
-			absorbRatio = ratio;
-		}
-		
-		private AbsorptionProperties(AbsorptionProperties orig)
-		{
-			priority = orig.priority;
-			absorbMax = orig.absorbMax;
-			absorbRatio = orig.absorbRatio;
-			slot = orig.slot;
-		}
-		
-		private int calcMaxAbsorption()
-		{
-			return (int)(absorbRatio == 0 ? 0 : absorbMax * 100.0 / absorbRatio);
-		}
-		
-		@Override
-		public int compareTo(AbsorptionProperties o)
-		{
-			if(o.priority != priority)
-				return o.priority - priority;
-			return calcMaxAbsorption() - o.calcMaxAbsorption();
-		}
-		
-		@Override
-		public String toString()
-		{
-			return String.format("%d, %d, %f, %d", priority, absorbMax, absorbRatio, calcMaxAbsorption());
-		}
-		
-		public AbsorptionProperties copy()
-		{
-			return new AbsorptionProperties(this);
-		}
-	}
+   default boolean canBlockDamageSource(LivingEntity player, ItemStack stack, DamageSource source, EquipmentSlot slot) {
+      return !source.is(net.minecraft.tags.DamageTypeTags.BYPASSES_ARMOR);
+   }
+
+   public static class AbsorptionProperties implements Comparable<ICustomArmor.AbsorptionProperties> {
+      public int priority;
+      public int absorbMax;
+      public double absorbRatio;
+      public EquipmentSlot slot = null;
+
+      public AbsorptionProperties(int priority, double ratio, int max) {
+         this.priority = priority;
+         this.absorbMax = max;
+         this.absorbRatio = ratio;
+      }
+
+      private AbsorptionProperties(ICustomArmor.AbsorptionProperties orig) {
+         this.priority = orig.priority;
+         this.absorbMax = orig.absorbMax;
+         this.absorbRatio = orig.absorbRatio;
+         this.slot = orig.slot;
+      }
+
+      private int calcMaxAbsorption() {
+         return (int)(this.absorbRatio == 0.0 ? 0.0 : (double)this.absorbMax * 100.0 / this.absorbRatio);
+      }
+
+      public int compareTo(ICustomArmor.AbsorptionProperties o) {
+         return o.priority != this.priority ? o.priority - this.priority : this.calcMaxAbsorption() - o.calcMaxAbsorption();
+      }
+
+      @Override
+      public String toString() {
+         return String.format("%d, %d, %f, %d", this.priority, this.absorbMax, this.absorbRatio, this.calcMaxAbsorption());
+      }
+
+      public ICustomArmor.AbsorptionProperties copy() {
+         return new ICustomArmor.AbsorptionProperties(this);
+      }
+   }
+
+   public static enum DamageType {
+      MODDED,
+      VANILLA,
+      THORNS_SELF;
+   }
 }

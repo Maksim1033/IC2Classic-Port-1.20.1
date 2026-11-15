@@ -1,0 +1,18 @@
+package ic2.core.block.transport.item.tubes;
+
+import ic2.core.block.transport.item.TubeTileEntity;
+import ic2.core.platform.registries.IC2Tiles;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class SimpleTubeTileEntity extends TubeTileEntity {
+   public SimpleTubeTileEntity(BlockPos pos, BlockState state) {
+      super(pos, state);
+   }
+
+   @Override
+   public BlockEntityType<?> createType() {
+      return IC2Tiles.SIMPLE_TUBE;
+   }
+}

@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "type": "directory",
+      "source": "models",
+      "prefix": "models/"
+    },
+    {
+      "type": "directory",
+      "source": "gui_sprites",
+      "prefix": "gui_sprites/"
+    },
+    {
+      "type": "directory",
+      "source": "mob_effect",
+      "prefix": "mob_effect/"
+    },
+    {
+      "type": "directory",
+      "source": "misc",
+      "prefix": "misc/"
+    }
+  ]
+}

@@ -1,6 +1,4 @@
 package ic2.api.items;
 
-public interface IFoamOverrider
-{
-	
+public interface IFoamOverrider {
 }

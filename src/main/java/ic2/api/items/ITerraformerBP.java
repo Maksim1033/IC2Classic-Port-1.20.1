@@ -6,17 +6,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public interface ITerraformerBP
-{
-	boolean canInsert(ItemStack stack, Player player, Level world, BlockPos pos);
-	
-	void onInsert(ItemStack stack, Player player, Level world, BlockPos pos);
-	
-	boolean isRandomized(ItemStack stack);
-	
-	int getEnergyUsage(ItemStack stack);
-	
-	int getRadius(ItemStack stack);
-	
-	boolean terraform(ItemStack stack, Level world, BlockPos position, ITerraformer terraformer);
+public interface ITerraformerBP {
+   boolean canInsert(ItemStack var1, Player var2, Level var3, BlockPos var4);
+
+   void onInsert(ItemStack var1, Player var2, Level var3, BlockPos var4);
+
+   boolean isRandomized(ItemStack var1);
+
+   int getEnergyUsage(ItemStack var1);
+
+   int getRadius(ItemStack var1);
+
+   boolean terraform(ItemStack var1, Level var2, BlockPos var3, ITerraformer var4);
 }
