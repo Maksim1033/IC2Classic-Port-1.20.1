@@ -1,10 +1,5 @@
 package ic2.api.recipes.registries;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 import ic2.api.recipes.ingridients.generators.IOutputGenerator;
 import ic2.api.recipes.ingridients.inputs.EmptyInput;
 import ic2.api.recipes.ingridients.inputs.IInput;
@@ -18,6 +13,10 @@ import ic2.api.recipes.misc.RecipeFlags;
 import ic2.api.recipes.misc.RecipeMods;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -29,246 +28,247 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.RegistryObject;
 
-public interface IRefiningRecipeList extends IListenableRegistry<IRefiningRecipeList>
-{
-	default Builder addIC2Recipe(String id){ return new Builder(this, new ResourceLocation("ic2", id)); }
-	default Builder addRecipe(ResourceLocation id) { return new Builder(this, id); }
-	void addRecipe(ResourceLocation location, FluidStack input, FluidStack secondInput, IInput catalyst, IFluidRecipeOutput output);
-	
-	FluidRecipe getRecipe(ResourceLocation location);
-	FluidRecipe getRecipe(ItemStack item, FluidStack firstTank, FluidStack secondTank, boolean testAmounts);
-	FluidRecipe getRecipe(Predicate<FluidRecipe> checker);
-	
-	FluidRecipe removeRecipe(ResourceLocation location, boolean includeInverted);
-	
-	List<FluidRecipe> getAllRecipes();
-	
-	boolean isValidCatalyst(ItemStack stack);
-	boolean isValidFirstFluid(FluidStack fluid);
-	boolean isValidSecondFluid(FluidStack fluid);
-	
-	class Builder
-	{
-		IRefiningRecipeList registry;
-		ResourceLocation id;
-		FluidStack firstInput = FluidStack.EMPTY;
-		FluidStack secondInput = FluidStack.EMPTY;
-		IInput catalyst = EmptyInput.INSTANCE;
-		CompoundTag data;
-		
-		public Builder(IRefiningRecipeList registry, ResourceLocation id)
-		{
-			this.registry = registry;
-			this.id = id;
-		}
-		
-		public Builder catalyst(ItemLike provider)
-		{
-			catalyst = new ItemInput(provider);
-			return this;
-		}
-		
-		public Builder catalyst(ItemStack stack)
-		{
-			catalyst = new ItemStackInput(stack);
-			return this;
-		}
-		
-		public Builder catalyst(TagKey<Item> tag)
-		{
-			catalyst = new ItemTagInput(tag);
-			return this;
-		}
-		
-		public Builder catalyst(RegistryObject<Item> provider)
-		{
-			return catalyst(provider.get());
-		}
-		
-		public Builder catalyst(IInput input)
-		{
-			catalyst = input;
-			return this;
-		}
-		
-		public Builder mainInput(RegistryObject<Fluid> fluid, int amount)
-		{
-			return mainInput(fluid.get(), amount);
-		}
-		
-		public Builder mainInput(Fluid fluid, int amount)
-		{
-			firstInput = new FluidStack(fluid, amount);
-			return this;
-		}
-		
-		public Builder mainInput(FluidStack fluid)
-		{
-			firstInput = fluid;
-			return this;
-		}
-		
-		public Builder secondInput(RegistryObject<Fluid> fluid, int amount)
-		{
-			return secondInput(fluid.get(), amount);
-		}
-		
-		public Builder secondInput(Fluid fluid, int amount)
-		{
-			secondInput = new FluidStack(fluid, amount);
-			return this;
-		}
-		
-		public Builder secondInput(FluidStack fluid)
-		{
-			secondInput = fluid;
-			return this;
-		}
-		
-		private void checkNBT()
-		{
-			if(data == null) data = new CompoundTag();
-		}
-		
-		public Builder addNBT(String id, Tag nbt)
-		{
-			checkNBT();
-			data.put(id, nbt);
-			return this;
-		}
-		
-		public Builder addNBT(CompoundTag data)
-		{
-			checkNBT();
-			data.merge(data);
-			return this;
-		}
-		
-		public Builder setNBT(CompoundTag data)
-		{
-			this.data = data;
-			return this;
-		}
-		
-		public Builder addFlag(RecipeFlags flag, boolean value)
-		{
-			checkNBT();
-			flag.applyFlag(data, value);
-			return this;
-		}
-		
-		public Builder addMod(RecipeMods mod, int value)
-		{
-			checkNBT();
-			mod.create(data, value);
-			return this;
-		}
-		
-		public Builder addMod(RecipeMods mod, double value)
-		{
-			checkNBT();
-			mod.create(data, value);
-			return this;
-		}
-		
-		public Builder addMod(RecipeMods mod, int exactValue, double modValue)
-		{
-			checkNBT();
-			mod.create(data, modValue, exactValue);
-			return this;
-		}
-		
-		public void buildSimple(IOutputGenerator output)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new SimpleFluidOutput(ObjectLists.singleton(output), data));			
-		}
-		
-		public void buildSimple(IOutputGenerator output, FluidStack...fluidOutputs)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new SimpleFluidOutput(ObjectLists.singleton(output), ObjectArrayList.wrap(fluidOutputs), data));			
-		}
-		
-		public void buildSimple(IOutputGenerator...itemOutputs)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new SimpleFluidOutput(ObjectArrayList.wrap(itemOutputs), data));			
-		}
-		
-		public void buildSimple(FluidStack...fluidOutputs)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new SimpleFluidOutput(Collections.emptyList(), ObjectArrayList.wrap(fluidOutputs), data));			
-		}
-		
-		public void buildSimple(List<IOutputGenerator> itemOutputs, List<FluidStack> fluidOutputs)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new SimpleFluidOutput(itemOutputs, fluidOutputs, data));
-		}
-		
-		public void buildRange(IOutputGenerator itemOutput, int minItem, int maxItem)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new RangeFluidOutput(itemOutput, minItem, maxItem, data));
-		}
-		
-		public void buildRange(FluidStack fluidOutput, int minFluid, int maxFluid)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new RangeFluidOutput(fluidOutput, minFluid, maxFluid, data));			
-		}
-		
-		public void buildRange(IOutputGenerator itemOutput, int minItem, int maxItem, FluidStack fluidOutput, int minFluid, int maxFluid)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, new RangeFluidOutput(itemOutput, minItem, maxItem, fluidOutput, minFluid, maxFluid, data));
-		}
-		
-		public void buildCustom(Function<CompoundTag, IFluidRecipeOutput> mapper)
-		{
-			registry.addRecipe(id, firstInput, secondInput, catalyst, mapper.apply(data));
-		}
-	}
-	
-	public static class FluidRecipe
-	{
-		ResourceLocation location;
-		FluidStack firstTank;
-		FluidStack secondTank;
-		IInput itemInput;
-		IFluidRecipeOutput output;
-		
-		public FluidRecipe(ResourceLocation location, FluidStack firstTank, FluidStack secondTank, IInput itemInput, IFluidRecipeOutput output)
-		{
-			this.location = location;
-			this.firstTank = firstTank;
-			this.secondTank = secondTank;
-			this.itemInput = itemInput;
-			this.output = output;
-		}
-		
-		public ResourceLocation getLocation()
-		{
-			return location;
-		}
+public interface IRefiningRecipeList extends IListenableRegistry<IRefiningRecipeList> {
+   default IRefiningRecipeList.Builder addIC2Recipe(String id) {
+      return new IRefiningRecipeList.Builder(this, new ResourceLocation("ic2", id));
+   }
 
-		public FluidStack getFirstTank()
-		{
-			return firstTank;
-		}
+   default IRefiningRecipeList.Builder addRecipe(ResourceLocation id) {
+      return new IRefiningRecipeList.Builder(this, id);
+   }
 
-		public FluidStack getSecondTank()
-		{
-			return secondTank;
-		}
+   void addRecipe(ResourceLocation var1, FluidStack var2, FluidStack var3, IInput var4, IFluidRecipeOutput var5);
 
-		public IInput getItemInput()
-		{
-			return itemInput;
-		}
+   IRefiningRecipeList.FluidRecipe getRecipe(ResourceLocation var1);
 
-		public IFluidRecipeOutput getOutput()
-		{
-			return output;
-		}
-		
-		public FluidRecipe invert()
-		{
-			return new FluidRecipe(new ResourceLocation(location.getNamespace(), location.getNamespace()+"_inverted"), secondTank, firstTank, itemInput, output);
-		}
-	}
+   IRefiningRecipeList.FluidRecipe getRecipe(ItemStack var1, FluidStack var2, FluidStack var3, boolean var4);
+
+   IRefiningRecipeList.FluidRecipe getRecipe(Predicate<IRefiningRecipeList.FluidRecipe> var1);
+
+   IRefiningRecipeList.FluidRecipe removeRecipe(ResourceLocation var1, boolean var2);
+
+   List<IRefiningRecipeList.FluidRecipe> getAllRecipes();
+
+   boolean isValidCatalyst(ItemStack var1);
+
+   boolean isValidFirstFluid(FluidStack var1);
+
+   boolean isValidSecondFluid(FluidStack var1);
+
+   public static class Builder {
+      IRefiningRecipeList registry;
+      ResourceLocation id;
+      FluidStack firstInput = FluidStack.EMPTY;
+      FluidStack secondInput = FluidStack.EMPTY;
+      IInput catalyst = EmptyInput.INSTANCE;
+      CompoundTag data;
+
+      public Builder(IRefiningRecipeList registry, ResourceLocation id) {
+         this.registry = registry;
+         this.id = id;
+      }
+
+      public IRefiningRecipeList.Builder catalyst(ItemLike provider) {
+         this.catalyst = new ItemInput(provider);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder catalyst(ItemStack stack) {
+         this.catalyst = new ItemStackInput(stack);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder catalyst(TagKey<Item> tag) {
+         this.catalyst = new ItemTagInput(tag);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder catalyst(RegistryObject<Item> provider) {
+         return this.catalyst((ItemLike)provider.get());
+      }
+
+      public IRefiningRecipeList.Builder catalyst(IInput input) {
+         this.catalyst = input;
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder mainInput(RegistryObject<Fluid> fluid, int amount) {
+         return this.mainInput((Fluid)fluid.get(), amount);
+      }
+
+      public IRefiningRecipeList.Builder mainInput(Fluid fluid, int amount) {
+         this.firstInput = new FluidStack(fluid, amount);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder mainInput(FluidStack fluid) {
+         this.firstInput = fluid;
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder secondInput(RegistryObject<Fluid> fluid, int amount) {
+         return this.secondInput((Fluid)fluid.get(), amount);
+      }
+
+      public IRefiningRecipeList.Builder secondInput(Fluid fluid, int amount) {
+         this.secondInput = new FluidStack(fluid, amount);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder secondInput(FluidStack fluid) {
+         this.secondInput = fluid;
+         return this;
+      }
+
+      private void checkNBT() {
+         if (this.data == null) {
+            this.data = new CompoundTag();
+         }
+      }
+
+      public IRefiningRecipeList.Builder addNBT(String id, Tag nbt) {
+         this.checkNBT();
+         this.data.put(id, nbt);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder addNBT(CompoundTag data) {
+         this.checkNBT();
+         data.merge(data);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder setNBT(CompoundTag data) {
+         this.data = data;
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder addFlag(RecipeFlags flag, boolean value) {
+         this.checkNBT();
+         flag.applyFlag(this.data, value);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder addMod(RecipeMods mod, int value) {
+         this.checkNBT();
+         mod.create(this.data, value);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder addMod(RecipeMods mod, double value) {
+         this.checkNBT();
+         mod.create(this.data, value);
+         return this;
+      }
+
+      public IRefiningRecipeList.Builder addMod(RecipeMods mod, int exactValue, double modValue) {
+         this.checkNBT();
+         mod.create(this.data, modValue, exactValue);
+         return this;
+      }
+
+      public void buildSimple(IOutputGenerator output) {
+         this.registry.addRecipe(this.id, this.firstInput, this.secondInput, this.catalyst, new SimpleFluidOutput(ObjectLists.singleton(output), this.data));
+      }
+
+      public void buildSimple(IOutputGenerator output, FluidStack... fluidOutputs) {
+         this.registry
+            .addRecipe(
+               this.id,
+               this.firstInput,
+               this.secondInput,
+               this.catalyst,
+               new SimpleFluidOutput(ObjectLists.singleton(output), ObjectArrayList.wrap(fluidOutputs), this.data)
+            );
+      }
+
+      public void buildSimple(IOutputGenerator... itemOutputs) {
+         this.registry
+            .addRecipe(this.id, this.firstInput, this.secondInput, this.catalyst, new SimpleFluidOutput(ObjectArrayList.wrap(itemOutputs), this.data));
+      }
+
+      public void buildSimple(FluidStack... fluidOutputs) {
+         this.registry
+            .addRecipe(
+               this.id,
+               this.firstInput,
+               this.secondInput,
+               this.catalyst,
+               new SimpleFluidOutput(Collections.emptyList(), ObjectArrayList.wrap(fluidOutputs), this.data)
+            );
+      }
+
+      public void buildSimple(List<IOutputGenerator> itemOutputs, List<FluidStack> fluidOutputs) {
+         this.registry.addRecipe(this.id, this.firstInput, this.secondInput, this.catalyst, new SimpleFluidOutput(itemOutputs, fluidOutputs, this.data));
+      }
+
+      public void buildRange(IOutputGenerator itemOutput, int minItem, int maxItem) {
+         this.registry.addRecipe(this.id, this.firstInput, this.secondInput, this.catalyst, new RangeFluidOutput(itemOutput, minItem, maxItem, this.data));
+      }
+
+      public void buildRange(FluidStack fluidOutput, int minFluid, int maxFluid) {
+         this.registry.addRecipe(this.id, this.firstInput, this.secondInput, this.catalyst, new RangeFluidOutput(fluidOutput, minFluid, maxFluid, this.data));
+      }
+
+      public void buildRange(IOutputGenerator itemOutput, int minItem, int maxItem, FluidStack fluidOutput, int minFluid, int maxFluid) {
+         this.registry
+            .addRecipe(
+               this.id,
+               this.firstInput,
+               this.secondInput,
+               this.catalyst,
+               new RangeFluidOutput(itemOutput, minItem, maxItem, fluidOutput, minFluid, maxFluid, this.data)
+            );
+      }
+
+      public void buildCustom(Function<CompoundTag, IFluidRecipeOutput> mapper) {
+         this.registry.addRecipe(this.id, this.firstInput, this.secondInput, this.catalyst, mapper.apply(this.data));
+      }
+   }
+
+   public static class FluidRecipe {
+      ResourceLocation location;
+      FluidStack firstTank;
+      FluidStack secondTank;
+      IInput itemInput;
+      IFluidRecipeOutput output;
+
+      public FluidRecipe(ResourceLocation location, FluidStack firstTank, FluidStack secondTank, IInput itemInput, IFluidRecipeOutput output) {
+         this.location = location;
+         this.firstTank = firstTank;
+         this.secondTank = secondTank;
+         this.itemInput = itemInput;
+         this.output = output;
+      }
+
+      public ResourceLocation getLocation() {
+         return this.location;
+      }
+
+      public FluidStack getFirstTank() {
+         return this.firstTank;
+      }
+
+      public FluidStack getSecondTank() {
+         return this.secondTank;
+      }
+
+      public IInput getItemInput() {
+         return this.itemInput;
+      }
+
+      public IFluidRecipeOutput getOutput() {
+         return this.output;
+      }
+
+      public IRefiningRecipeList.FluidRecipe invert() {
+         return new IRefiningRecipeList.FluidRecipe(
+            new ResourceLocation(this.location.getNamespace(), this.location.getNamespace() + "_inverted"),
+            this.secondTank,
+            this.firstTank,
+            this.itemInput,
+            this.output
+         );
+      }
+   }
 }

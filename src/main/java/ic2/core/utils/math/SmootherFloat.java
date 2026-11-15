@@ -1,0 +1,45 @@
+package ic2.core.utils.math;
+
+public class SmootherFloat {
+   protected float value;
+   protected float target;
+   protected float agility;
+
+   public SmootherFloat(float agility) {
+      this.agility = agility;
+   }
+
+   public SmootherFloat(float value, float agility) {
+      this.value = value;
+      this.target = value;
+      this.agility = agility;
+   }
+
+   public boolean isDone() {
+      return Math.abs(this.target - this.value) <= 0.5F;
+   }
+
+   public void update(float delta) {
+      this.value = this.value + (this.target - this.value) * this.agility * delta;
+   }
+
+   public void setTarget(float value) {
+      this.target = value;
+   }
+
+   public void addTarget(float value) {
+      this.target += value;
+   }
+
+   public void forceFinish() {
+      this.value = this.target;
+   }
+
+   public float getValue() {
+      return this.value;
+   }
+
+   public float getTarget() {
+      return this.target;
+   }
+}

@@ -10,13 +10,13 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 
-public class ChestWrenchHandler extends HorizontalWrenchHandler
-{
-	public static final IWrenchable INSTANCE = new ChestWrenchHandler();
-	
-	@Override
-	public boolean canSetFacing(BlockState state, Level world, BlockPos pos, Player player, Direction side) {
-		if(state.hasProperty(ChestBlock.TYPE) && state.getValue(ChestBlock.TYPE) != ChestType.SINGLE) return false;
-		return side.getAxis().isHorizontal() && state.getValue(HorizontalDirectionalBlock.FACING) != side;
-	}
+public class ChestWrenchHandler extends HorizontalWrenchHandler {
+   public static final IWrenchable INSTANCE = new ChestWrenchHandler();
+
+   @Override
+   public boolean canSetFacing(BlockState state, Level world, BlockPos pos, Player player, Direction side) {
+      return state.hasProperty(ChestBlock.TYPE) && state.getValue(ChestBlock.TYPE) != ChestType.SINGLE
+         ? false
+         : side.getAxis().isHorizontal() && state.getValue(HorizontalDirectionalBlock.FACING) != side;
+   }
 }

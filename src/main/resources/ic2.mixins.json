@@ -1,0 +1,50 @@
+{
+	"package": "ic2.core.platform.corehacks.mixins",
+	"required": true,
+	"refmap": "mixins.ic2.refmap.json",
+	"minVersion": "0.8",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"server.BiomeMixin",
+		"server.BlockMixin",
+		"server.BlockPropertiesMixin",
+		"server.DiodeBlockMixin",
+		"server.BoatMixin",
+		"server.ChunkHolderMixin",
+		"server.ChunkMixin",
+		"server.ChunkProviderMixin",
+		"server.ContainerMixin",
+		"server.PackMixin",
+		"server.PlayerNetMixin",
+		"server.ProjectileMixin",
+		"server.LevelMixin",
+		"server.ServerLangMixin",
+		"server.SlotMixin",
+		"server.SmithingMixin",
+		"server.TriggerMixin",
+		"server.TrunkMixin",
+		"server.VillagerMixin",
+		"server.info.BrewingMixin",
+		"server.info.FurnaceMixin",
+		"server.info.SpawnerMixin"
+	],
+	"client": [
+		"client.BlockModelShaperAccessor",
+		"client.BlockModelShaperMixin",
+		"client.DebugMixin",
+		"client.LangMixin",
+		"client.LevelSummaryMixin",
+		"client.ModelManagerMixin",
+		"client.PlayerControllerMixin",
+		"client.ScreenMixin",
+		"client.SlotMixin",
+		"client.audio.SoundEngineMixin",
+		"client.audio.SoundHandlerMixin",
+		"client.rendering.RenderTypeBuffersMixin",
+		"client.rendering.TileEntityMixin",
+		"client.rendering.WorldRenderMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

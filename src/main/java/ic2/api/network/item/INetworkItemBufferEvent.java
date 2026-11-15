@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 
-public interface INetworkItemBufferEvent<T extends INetworkDataBuffer> extends IPlayerPacket
-{
-	void onDataBufferReceived(ItemStack stack, Player player, String id, T buffer, Dist targetSide);
+public interface INetworkItemBufferEvent<T extends INetworkDataBuffer> extends IPlayerPacket {
+   void onDataBufferReceived(ItemStack var1, Player var2, String var3, T var4, Dist var5);
 }

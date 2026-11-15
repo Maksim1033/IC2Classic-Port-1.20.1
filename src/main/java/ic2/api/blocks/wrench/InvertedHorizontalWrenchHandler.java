@@ -8,22 +8,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class InvertedHorizontalWrenchHandler extends HorizontalWrenchHandler
-{
-	public static final IWrenchable INSTANCE = new InvertedHorizontalWrenchHandler();
-	
-	@Override
-	public Direction getFacing(BlockState state, Level world, BlockPos pos) {
-		return state.getValue(HorizontalDirectionalBlock.FACING).getOpposite();
-	}
-	
-	@Override
-	public boolean canSetFacing(BlockState state, Level world, BlockPos pos, Player player, Direction side) {
-		return side.getAxis().isHorizontal() && state.getValue(HorizontalDirectionalBlock.FACING).getOpposite() != side;
-	}
-	
-	@Override
-	public boolean setFacing(BlockState state, Level world, BlockPos pos, Player player, Direction side) {
-		return side.getAxis().isHorizontal() && world.setBlockAndUpdate(pos, state.setValue(HorizontalDirectionalBlock.FACING, side.getOpposite()));
-	}
+public class InvertedHorizontalWrenchHandler extends HorizontalWrenchHandler {
+   public static final IWrenchable INSTANCE = new InvertedHorizontalWrenchHandler();
+
+   @Override
+   public Direction getFacing(BlockState state, Level world, BlockPos pos) {
+      return ((Direction)state.getValue(HorizontalDirectionalBlock.FACING)).getOpposite();
+   }
+
+   @Override
+   public boolean canSetFacing(BlockState state, Level world, BlockPos pos, Player player, Direction side) {
+      return side.getAxis().isHorizontal() && ((Direction)state.getValue(HorizontalDirectionalBlock.FACING)).getOpposite() != side;
+   }
+
+   @Override
+   public boolean setFacing(BlockState state, Level world, BlockPos pos, Player player, Direction side) {
+      return side.getAxis().isHorizontal() && world.setBlockAndUpdate(pos, (BlockState)state.setValue(HorizontalDirectionalBlock.FACING, side.getOpposite()));
+   }
 }

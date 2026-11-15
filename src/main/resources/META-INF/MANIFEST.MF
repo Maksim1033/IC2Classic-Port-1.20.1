@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Specification-Title: IC2Classic
+Specification-Vendor: IC2Classic
+Specification-Version: 1
+Implementation-Title: IC2C-1.19
+Implementation-Version: 1.19.2-2.1.3.4
+Implementation-Vendor: IC2Classic
+Implementation-Timestamp: 2026-07-31T10:15:19+0200
+MixinConfigs: ic2.mixins.json
+

@@ -1,0 +1,43 @@
+package ic2.core.entity.minecarts;
+
+import ic2.core.platform.registries.IC2Blocks;
+import ic2.core.platform.registries.IC2Items;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class MFSUMinecart extends ElectricMinecart {
+   public MFSUMinecart(EntityType<?> type, Level level) {
+      super(type, level);
+   }
+
+   public MFSUMinecart(EntityType<?> type, Level level, double x, double y, double z) {
+      super(type, level, x, y, z);
+   }
+
+   @Override
+   public int getMaxEU() {
+      return 10000000;
+   }
+
+   @Override
+   public int getTier() {
+      return 3;
+   }
+
+   @Override
+   public int getGuiOffset() {
+      return -12;
+   }
+
+   @Override
+   public BlockState getDefaultDisplayBlockState() {
+      return IC2Blocks.MFSU.defaultBlockState();
+   }
+
+   @Override
+   protected Item getDropItem() {
+      return IC2Items.MFSU_MINECART;
+   }
+}

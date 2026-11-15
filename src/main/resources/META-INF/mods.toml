@@ -1,0 +1,69 @@
+modLoader="javafml" #mandatory
+loaderVersion="[47,)" #mandatory
+issueTrackerURL="https://github.com/TinyModularThings/IC2Classic/issues" #optional
+license="All rights reserved"
+[[mods]] #mandatory
+modId="ic2" #mandatory
+version="${file.jarVersion}" #mandatory
+displayName="Industrial Craft Classic Port" #mandatory
+#updateJSONURL="http://myurl.me/" #optional
+#displayURL="http://example.com/" #optional
+logoFile="examplemod.png" #optional
+credits="Thanks for this example mod goes to Java" #optional
+authors="Speiger, Meduris, Razzokk, Daenara, Quizzi, Gwen, Port By Gemini & TopGworks.Pagadev" #optional
+description='''
+'''
+[[dependencies.ic2]] #optional
+    modId="forge" #mandatory
+    mandatory=true #mandatory
+    versionRange="[47,)" #mandatory
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.ic2]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.ic2]]
+    modId="carbonconfig"
+    mandatory=true
+    versionRange="[1.20-2.0.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.ic2]]
+    modId="jeresources"
+    mandatory=false
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+	referralUrl="https://www.curseforge.com/minecraft/mc-mods/just-enough-resources-jer"
+[[dependencies.ic2]]
+    modId="jei"
+    mandatory=false
+    versionRange="[15.0.0,)"
+    ordering="NONE"
+    side="BOTH"
+	referralUrl="https://www.curseforge.com/minecraft/mc-mods/jei"
+[[dependencies.ic2]]
+    modId="curios"
+    mandatory=false
+    versionRange="[0,)" #We don't care about the version
+    ordering="NONE"
+    side="BOTH"
+	referralUrl="https://www.curseforge.com/minecraft/mc-mods/curios"
+[[dependencies.ic2]]
+    modId="theoneprobe"
+    mandatory=false
+	versionRange="[0,)" #We don't care about the version
+    ordering="NONE"
+    side="BOTH"
+	referralUrl="https://www.curseforge.com/minecraft/mc-mods/the-one-probe"
+[[dependencies.ic2]]
+    modId="mekanism"
+    mandatory=false
+    versionRange="[0,)" #We don't care about the version
+	ordering="NONE"
+    side="BOTH"
+	referralUrl="https://www.curseforge.com/minecraft/mc-mods/mekanism"
+

@@ -1,0 +1,91 @@
+package ic2.core.block.crops.crops;
+
+import ic2.api.crops.CropProperties;
+import ic2.api.crops.ICrop;
+import ic2.api.crops.ICropTile;
+import ic2.core.platform.rendering.IC2Textures;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+public class SeaGrassCrop extends BaseCrop {
+   public SeaGrassCrop() {
+      super("sea_grass", new CropProperties(0, 0, 0, 0, 1, 5), "Green", "Weed");
+   }
+
+   @OnlyIn(Dist.CLIENT)
+   @Override
+   public TextureAtlasSprite getTexture(int stage) {
+      return IC2Textures.getMappedEntriesBlockIC2("crops/sea_grass").get("growing_" + stage);
+   }
+
+   @Override
+   public Component discoveredBy() {
+      return BaseCrop.MOJANG;
+   }
+
+   @Override
+   public ItemStack getDisplayItem() {
+      return new ItemStack(Items.SEAGRASS);
+   }
+
+   @Override
+   public int getGrowthSteps() {
+      return 7;
+   }
+
+   @Override
+   public ICrop.CropType getCropType() {
+      return ICrop.CropType.WATER;
+   }
+
+   @Override
+   public boolean isWaterCleaningCrop(ICropTile tile) {
+      return true;
+   }
+
+   @Override
+   public int getOptimalHarvestStep(ICropTile cropTile) {
+      return 0;
+   }
+
+   @Override
+   public int getGrowthDuration(ICropTile cropTile) {
+      return 300;
+   }
+
+   @Override
+   public boolean canBeHarvested(ICropTile cropTile) {
+      return false;
+   }
+
+   @Override
+   public boolean onLeftClick(ICropTile cropTile, Player player) {
+      cropTile.removeCrop();
+      return true;
+   }
+
+   @Override
+   public void onEntityCollision(ICropTile cropTile, Entity entity) {
+   }
+
+   @Override
+   public ItemStack[] getDrops(ICropTile cropTile) {
+      return EMPTY_DROPS;
+   }
+
+   @Override
+   public ItemStack getSeeds(ICropTile cropTile) {
+      return ItemStack.EMPTY;
+   }
+
+   @Override
+   public boolean isWeed(ICropTile cropTile) {
+      return cropTile.getGrowthStage() >= 5;
+   }
+}
