@@ -34,7 +34,7 @@
 Этот проект использует:
 
 - Forge 1.20.1
-- Cloth Config API
+- Carbon Config
 - The One Probe
 - Curios API
 
@@ -63,7 +63,7 @@
 
 ## ИИ в разработке
 
-<img src="https://img.shields.io/badge/AI-Developed_with_Gemini-blue?style=flat-square" alt="Developed with Gemini AI">
+<img src="https://Config.shields.io/badge/AI-Developed_with_Gemini-blue?style=flat-square" alt="Developed with Gemini AI">
 
 Значительная часть процесса миграции была выполнена при помощи **Gemini 3.8 Flash**.
 
