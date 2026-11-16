@@ -35,6 +35,8 @@
 
 - Forge 1.20.1
 - Carbon Config
+
+Рекомендуются к установке: 
 - The One Probe
 - Curios API
 
