@@ -28,7 +28,7 @@ The main goal is to preserve the original gameplay, API, mechanics and compatibi
 This project uses:
 
 - Forge 1.20.1
-- Cloth Config API
+- Carbon Config
 - The One Probe
 - Curios API
 
